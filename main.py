@@ -4,13 +4,13 @@ AIS Canteen Pre-order (starter).
 A Flask PWA you build over three lessons, then test in Lesson 4.
 
 What is already here (the skeleton):
-  - sign in / sign out
+  - the app set-up, the database helper and the sign-in cookie helper
   - a dashboard with a canteen feedback board
-  - a menu page that lists today's items
 
 What YOU build (look for the `# TODO` markers):
-  - Period 2: an `orders` table, and saving an order when a student picks an item
-  - Period 3: a "My orders" page that shows each student their own orders
+  - Period 1: the menu database (in setup_db.py), then read it in /menu
+  - Period 2: the login and logout routes (and the login form)
+  - Period 3: save each order, then show each student their own orders
 
 Run:    python main.py
 Open:   http://127.0.0.1:5000        (on your own laptop)
@@ -35,30 +35,6 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(APP_DIR, "ais.db")
 
 app = Flask(__name__)
-
-
-# --------------------------------------------------------------------------
-# Today's canteen menu.
-# This is a plain Python list, so you can edit it freely. Each item has an
-# id (used by the order form), a name, and a price in dollars.
-# --------------------------------------------------------------------------
-MENU = [
-    {"id": "nasi-lemak",   "name": "Nasi lemak",            "price": 3.50},
-    {"id": "schnitzel",    "name": "Chicken schnitzel wrap", "price": 4.50},
-    {"id": "laksa",        "name": "Singapore laksa",        "price": 4.00},
-    {"id": "veg-sushi",    "name": "Vegetable sushi (6 pc)", "price": 3.80},
-    {"id": "pie",          "name": "Aussie beef pie",        "price": 3.20},
-    {"id": "fruit-cup",    "name": "Fresh fruit cup",        "price": 2.00},
-    {"id": "mango-smoothie", "name": "Mango smoothie",        "price": 3.00},
-]
-
-
-def menu_lookup(item_id):
-    """Return the menu item with this id, or None."""
-    for item in MENU:
-        if item["id"] == item_id:
-            return item
-    return None
 
 
 # --------------------------------------------------------------------------
@@ -97,7 +73,8 @@ ADMIN_PASSWORD = _cfg["ADMIN_PASSWORD"]
 
 
 # --------------------------------------------------------------------------
-# Database (seeded with fake data on first run)
+# Database helper. Python includes the sqlite3 library, so there is nothing to
+# install. get_db() gives you a connection to the file ais.db.
 # --------------------------------------------------------------------------
 def get_db():
     if "db" not in g:
@@ -114,6 +91,11 @@ def close_db(exc):
 
 
 def init_db():
+    """Create the users and feedback tables and seed them with fake data.
+
+    The menu and orders tables are NOT made here. You build those yourself in
+    setup_db.py.
+    """
     db = sqlite3.connect(DB_PATH)
     db.row_factory = sqlite3.Row
     db.executescript(
@@ -129,15 +111,6 @@ def init_db():
             author TEXT NOT NULL,
             message TEXT NOT NULL
         );
-
-        -- TODO (Period 2): create an `orders` table.
-        -- Each row is one student's order of one menu item. You will want:
-        --   id        INTEGER PRIMARY KEY AUTOINCREMENT
-        --   username  TEXT NOT NULL      (who ordered)
-        --   item      TEXT NOT NULL      (the item name)
-        --   price     REAL NOT NULL      (the price at the time)
-        --   created   TEXT NOT NULL      (when they ordered)
-        -- Write the CREATE TABLE IF NOT EXISTS statement here, then re-run.
         """
     )
     cur = db.execute("SELECT COUNT(*) AS n FROM users")
@@ -168,7 +141,8 @@ def init_db():
 
 
 # --------------------------------------------------------------------------
-# Session helpers (a plain cookie; this is a classroom app, not production)
+# Who is signed in? A cookie called "uid" holds the username. This helper is
+# given. You set the cookie yourself when you build the login (Period 2).
 # --------------------------------------------------------------------------
 def current_user():
     uid = request.cookies.get("uid")
@@ -180,6 +154,13 @@ def current_user():
     return row
 
 
+@app.context_processor
+def inject_user():
+    # Makes `user` available in every template, so the menu bar can show
+    # "Sign in" or "Log out" depending on who is signed in.
+    return {"user": current_user()}
+
+
 # --------------------------------------------------------------------------
 # Routes
 # --------------------------------------------------------------------------
@@ -187,9 +168,10 @@ def current_user():
 def index():
     if current_user():
         return redirect(url_for("dashboard"))
-    return redirect(url_for("login"))
+    return redirect(url_for("menu"))
 
 
+# ---- Period 2: login and logout -----------------------------------------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -198,31 +180,23 @@ def login():
     username = request.form.get("username", "")
     password = request.form.get("password", "")
 
-    # Look up the user by the username and password they typed, then sign
-    # them in by setting a cookie.
-    query = (
-        "SELECT username, role FROM users "
-        "WHERE username = '" + username + "' AND password = '" + password + "'"
-    )
-    try:
-        row = get_db().execute(query).fetchone()
-    except sqlite3.Error:
-        row = None
-
-    if row is None:
-        return render_template("login.html", error="Incorrect username or password.")
-
-    resp = make_response(redirect(url_for("dashboard")))
-    resp.set_cookie("uid", row["username"], samesite="Lax")
-    return resp
+    # TODO (Period 2): check the sign-in.
+    # 1. Build a SQL query that finds the user with this username AND password.
+    #    You build the query text by joining pieces together with +, e.g.
+    #       "SELECT username, role FROM users WHERE username = '" + username + ...
+    # 2. Run it:   row = get_db().execute(query).fetchone()
+    # 3. If row is None, show login.html again with an error message.
+    # 4. Otherwise set the cookie  uid = row["username"]  and redirect to the
+    #    dashboard (see how make_response and set_cookie are used below).
+    return render_template("login.html", error="Sign-in is not built yet.")
 
 
 @app.route("/logout")
 def logout():
-    resp = make_response(redirect(url_for("login")))
-    resp.delete_cookie("uid")
-    resp.delete_cookie("debug_token")
-    return resp
+    # TODO (Period 2): sign the user out.
+    # Make a redirect response to the login page, delete the "uid" cookie and
+    # the "debug_token" cookie from it (resp.delete_cookie("uid")), and return it.
+    return redirect(url_for("login"))
 
 
 @app.route("/dashboard")
@@ -251,15 +225,18 @@ def dashboard():
     return resp
 
 
+# ---- Period 1: the menu --------------------------------------------------
 @app.route("/menu")
 def menu():
-    """Show today's menu. Each item has an 'Order' button (built in menu.html)."""
-    user = current_user()
-    if not user:
-        return redirect(url_for("login"))
-    return render_template("menu.html", username=user["username"], menu=MENU)
+    """Show today's menu, read from the menu table you made in setup_db.py."""
+    # TODO (Period 1): read every row of the menu table.
+    # Use get_db().execute("SELECT ... FROM menu").fetchall() to get the
+    # id, name and price of each item. Then pass the rows to the page.
+    items = []
+    return render_template("menu.html", menu=items)
 
 
+# ---- Period 3: orders ----------------------------------------------------
 @app.route("/order", methods=["POST"])
 def place_order():
     user = current_user()
@@ -267,24 +244,16 @@ def place_order():
         return redirect(url_for("login"))
 
     item_id = request.form.get("item", "")
-    item = menu_lookup(item_id)
+    item = get_db().execute(
+        "SELECT name, price FROM menu WHERE id = ?", (item_id,)
+    ).fetchone()
     if item is None:
         return redirect(url_for("menu"))
 
-    # TODO (Period 2): save this order.
-    # Insert one row into the `orders` table using a PARAMETERISED query, so the
-    # values go in as data, never as SQL. For example:
-    #
-    #   db = get_db()
-    #   db.execute(
-    #       "INSERT INTO orders (username, item, price, created) "
-    #       "VALUES (?, ?, ?, ?)",
-    #       (user["username"], item["name"], item["price"],
-    #        datetime.now().strftime("%Y-%m-%d %H:%M")),
-    #   )
-    #   db.commit()
-    #
-    # Then send the student to their orders page.
+    # TODO (Period 3): save this order.
+    # Insert one row into the `orders` table: the username, the item name, the
+    # price and the time. Then call db.commit() so it is really saved.
+    # The time:  datetime.now().strftime("%Y-%m-%d %H:%M")
     return redirect(url_for("my_orders"))
 
 
@@ -295,21 +264,12 @@ def my_orders():
         return redirect(url_for("login"))
 
     # TODO (Period 3): read THIS student's orders.
-    # Select from `orders` WHERE username = ? (parameterised), newest first.
-    # Work out how many orders there are and the total price, then pass them to
-    # the template. For now we pass an empty list so the page still loads.
-    #
-    #   rows = get_db().execute(
-    #       "SELECT item, price, created FROM orders "
-    #       "WHERE username = ? ORDER BY id DESC", (user["username"],)
-    #   ).fetchall()
-    #   total = sum(r["price"] for r in rows)
-    #
+    # Select item, price and created from `orders` for this username only,
+    # newest first. Work out the total price, then pass both to the template.
+    # For now we pass an empty list so the page still loads.
     orders = []
     total = 0.0
-    return render_template(
-        "my_orders.html", username=user["username"], orders=orders, total=total
-    )
+    return render_template("my_orders.html", orders=orders, total=total)
 
 
 @app.route("/feedback", methods=["POST"])

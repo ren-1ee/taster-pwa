@@ -1,13 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — AIS Canteen Pre-order{% endblock %}
-{% block nav %}
-  <nav class="nav">
-    <a href="/menu">Menu</a>
-    <a href="/my-orders">My orders</a>
-    <span class="muted">Signed in as <strong>{{ username }}</strong> ({{ role }})</span>
-    <a href="/logout">Log out</a>
-  </nav>
-{% endblock %}
+{% block title %}Dashboard - AIS Canteen Pre-order{% endblock %}
 {% block content %}
 
   {% if admin_flag %}
