@@ -1,0 +1,16 @@
+{
+  "name": "AIS Canteen Pre-order",
+  "short_name": "AIS Canteen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1724",
+  "theme_color": "#1f5fa8",
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

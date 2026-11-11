@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Menu — AIS Canteen Pre-order{% endblock %}
+{% block nav %}
+  <nav class="nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/my-orders">My orders</a>
+    <span class="muted">Signed in as <strong>{{ username }}</strong></span>
+    <a href="/logout">Log out</a>
+  </nav>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Today's menu</h1>
+    <p class="muted">Pick an item to pre-order it for lunch.</p>
+  </div>
+
+  <ul class="menu-list">
+
+    {#  TODO (Period 1): show every item on the menu.
+        Right now only ONE item is shown, and it is hard-coded below.
+        Replace the single <li> with a Jinja loop that repeats it for each
+        item, using the `menu` list the server passed in:
+
+            {% for item in menu %}
+              <li class="menu-item"> ... use item.name, item.price, item.id ... </li>
+            {% endfor %}
+
+        Each item needs its own order form so the right id is sent.
+    #}
+
+    <li class="menu-item">
+      <div>
+        <span class="item-name">Nasi lemak</span>
+        <span class="item-price">$3.50</span>
+      </div>
+      <form method="post" action="/order">
+        <input type="hidden" name="item" value="nasi-lemak">
+        <button type="submit">Order</button>
+      </form>
+    </li>
+
+  </ul>
+{% endblock %}

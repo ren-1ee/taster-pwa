@@ -1,0 +1,14 @@
+{
+  "name": "AIS Canteen Pre-order",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "forwardPorts": [5000],
+  "portsAttributes": {
+    "5000": { "label": "AIS app", "onAutoForward": "openPreview" }
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}

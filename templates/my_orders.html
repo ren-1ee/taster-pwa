@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My orders — AIS Canteen Pre-order{% endblock %}
+{% block nav %}
+  <nav class="nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/menu">Menu</a>
+    <span class="muted">Signed in as <strong>{{ username }}</strong></span>
+    <a href="/logout">Log out</a>
+  </nav>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>My orders</h1>
+
+    {% if orders %}
+      <ul class="order-list">
+        {#  TODO (Period 3): show one row per order.
+            Loop over `orders` and show item, price and when it was made:
+
+              {% for o in orders %}
+                <li><span class="item-name">{{ o.item }}</span>
+                    <span class="item-price">${{ '%.2f'|format(o.price) }}</span>
+                    <span class="muted">{{ o.created }}</span></li>
+              {% endfor %}
+        #}
+      </ul>
+      <p class="order-total">Total: <strong>${{ '%.2f'|format(total) }}</strong></p>
+    {% else %}
+      <p class="muted">No orders yet. Head to the <a href="/menu">menu</a> to pre-order lunch.</p>
+    {% endif %}
+  </div>
+{% endblock %}

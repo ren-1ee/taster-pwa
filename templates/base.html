@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AIS Canteen Pre-order{% endblock %}</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="theme-color" content="#1f5fa8">
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">🍽️ AIS Canteen Pre-order</span>
+    {% block nav %}{% endblock %}
+  </header>
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="foot">
+    Training sandbox. Fake data only. Test only this copy, with permission.
+  </footer>
+  <!-- The app loads config.js: it carries the client configuration. -->
+  <script src="/config.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(function (e) {
+        console.log("service worker registration skipped:", e);
+      });
+    }
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

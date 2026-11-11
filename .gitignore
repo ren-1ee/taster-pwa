@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local database (seeded fresh on first run)
+ais.db
+ctf.db
+
+# Secrets: flags, admin key, admin password. Teachers keep this locally or set
+# the values as Codespaces secrets. Never commit the answers.
+ctf_config.py
+.env
+
+# OS / editor
+.DS_Store
+
+# Teacher solution guide (answers). Kept local / distributed separately.
+teacher/

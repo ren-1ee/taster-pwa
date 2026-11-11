@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AIS Canteen Pre-order{% endblock %}
+{% block nav %}
+  <nav class="nav">
+    <a href="/menu">Menu</a>
+    <a href="/my-orders">My orders</a>
+    <span class="muted">Signed in as <strong>{{ username }}</strong> ({{ role }})</span>
+    <a href="/logout">Log out</a>
+  </nav>
+{% endblock %}
+{% block content %}
+
+  {% if admin_flag %}
+    <div class="card admin-console">
+      <h2>Admin console</h2>
+      <p>Welcome, administrator. System status: all services nominal.</p>
+      <p class="flag">{{ admin_flag }}</p>
+    </div>
+  {% endif %}
+
+  <div class="card">
+    <h2>Admin feedback widget</h2>
+    <p class="muted">Live feed from the admin API.</p>
+    <pre id="admin-widget">loading…</pre>
+  </div>
+
+  <div class="card">
+    <h2>Feedback</h2>
+    <form method="post" action="/feedback" class="feedback-form">
+      <label>Leave feedback about the canteen
+        <textarea name="message" rows="2" placeholder="Type your feedback…"></textarea>
+      </label>
+      <button type="submit">Send</button>
+    </form>
+    <ul class="feedback-list">
+      {% for fb in feedback %}
+        <li>
+          <span class="author">{{ fb.author }}</span>
+          <!-- The feedback is shown with `| safe`, which renders it as HTML. -->
+          <span class="msg">{{ fb.message | safe }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endblock %}
+{% block scripts %}
+  <script src="/static/app.js"></script>
+{% endblock %}
