@@ -320,6 +320,12 @@ def config_js():
     return resp
 
 
+@app.route("/offline")
+def offline():
+    # The page the service worker shows when there is no internet.
+    return render_template("offline.html")
+
+
 @app.route("/sw.js")
 def service_worker():
     resp = send_from_directory(os.path.join(APP_DIR, "static"), "sw.js")
