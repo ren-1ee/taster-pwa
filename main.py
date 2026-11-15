@@ -12,7 +12,7 @@ What YOU build (look for the `# TODO` markers):
   - Period 2: the login and logout routes (and the login form)
   - Period 3: save each order, then show each student their own orders
 
-Run:    python main.py        (needs your virtual environment; see README.md)
+Run:    python3 main.py
 Open:   http://127.0.0.1:5000        (on your own laptop)
         or the forwarded port 5000   (in a GitHub Codespace)
 
