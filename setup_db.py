@@ -3,7 +3,7 @@ Set up the sample database for the AIS Canteen Pre-order app.
 
 You write the SQL in this file, then run it:
 
-    python setup_db.py
+    python setup_db.py      (in your virtual environment; see README.md)
 
 It is safe to run again. It rebuilds the menu each time, so if you make a
 mistake, fix the SQL and run it once more.

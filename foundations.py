@@ -4,7 +4,7 @@ Period 0 warm-up: the new Python you need for the canteen app.
 You already know variables, if, loops, lists and 2D lists. This file adds
 four new ideas: functions, tuples, dictionaries, and lists of dictionaries.
 
-Run it:   python foundations.py      (on a Mac: python3 foundations.py)
+Run it:   python foundations.py      (in your virtual environment, see README.md)
 
 Each TODO is a small task. Do one, run the file, check the output, then move on.
 """
