@@ -1,7 +1,7 @@
 """
 AIS Canteen Pre-order (starter).
 
-A Flask PWA you build over three lessons, then test in Lesson 4.
+A Flask PWA you build over three lessons, then test in Period 4.
 
 What is already here (the skeleton):
   - the app set-up, the database helper and the sign-in cookie helper
