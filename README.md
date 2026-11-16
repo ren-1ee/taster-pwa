@@ -85,7 +85,8 @@ Test accounts (for when your login works): **aisha / sunflower22**,
 Each period has a **practice notebook**. You write the SQL and Python in its
 cells, see the answer straight away, and get a tick or a hint from the check
 cells. When every check shows a tick, you copy your code into the real files
-and the last cell checks your real app.
+and the last cell checks your real app. Cells that start with `%%sql` are plain
+SQL: copy just the SQL under that line.
 
 To use one in VS Code: open the `.ipynb` file, click **Select Kernel** (top
 right), choose **Python Environments**, then the one inside `.venv`. If VS Code
@@ -119,6 +120,6 @@ Look for `# TODO` in the code. Each one belongs to a lesson.
 | `period1_menu.ipynb`, `period2_login.ipynb`, `period3_orders.ipynb` | Practice notebooks for Periods 1 to 3: try the SQL and Python here, then copy it into the app files |
 | `templates/` | The pages (`base`, `login`, `dashboard`, `menu`, `my_orders`, `offline`) |
 | `static/` | Stylesheet, icon, manifest, service worker, `app.js` |
-| `requirements.txt` | Flask, and `ipykernel` so the notebooks can run |
+| `requirements.txt` | Flask, `ipykernel` and `jupysql` so the notebooks can run (and show SQL results) |
 
 Training sandbox: fake data only, debug off. Only ever test your own copy.
