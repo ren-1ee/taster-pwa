@@ -77,7 +77,20 @@ Test accounts (for when your login works): **aisha / sunflower22**,
 - A dashboard with a canteen feedback board
 - The page frame (`base.html`) with a menu bar
 - The manifest, the service worker and an offline page (the PWA parts)
-- `foundations.py`, a Python warm-up you run in Period 0
+- `foundations.ipynb` (and `foundations.py`), a Python warm-up you do in Period 0
+- Practice notebooks for Periods 1 to 3 (see below)
+
+## How the notebooks work
+
+Each period has a **practice notebook**. You write the SQL and Python in its
+cells, see the answer straight away, and get a tick or a hint from the check
+cells. When every check shows a tick, you copy your code into the real files
+and the last cell checks your real app.
+
+To use one in VS Code: open the `.ipynb` file, click **Select Kernel** (top
+right), choose **Python Environments**, then the one inside `.venv`. If VS Code
+offers to install the **Jupyter** extension, say yes. Run a cell with
+**Shift+Enter**.
 
 ## What you build
 
@@ -102,9 +115,10 @@ Look for `# TODO` in the code. Each one belongs to a lesson.
 | --- | --- |
 | `main.py` | The Flask app: routes and the database helper |
 | `setup_db.py` | You write the SQL that builds the menu and orders tables |
-| `foundations.py` | Period 0 Python warm-up |
+| `foundations.ipynb` | Period 0 Python warm-up (notebook). `foundations.py` is the same warm-up as a plain file |
+| `period1_menu.ipynb`, `period2_login.ipynb`, `period3_orders.ipynb` | Practice notebooks for Periods 1 to 3: try the SQL and Python here, then copy it into the app files |
 | `templates/` | The pages (`base`, `login`, `dashboard`, `menu`, `my_orders`, `offline`) |
 | `static/` | Stylesheet, icon, manifest, service worker, `app.js` |
-| `requirements.txt` | Flask |
+| `requirements.txt` | Flask, and `ipykernel` so the notebooks can run |
 
 Training sandbox: fake data only, debug off. Only ever test your own copy.
