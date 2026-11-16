@@ -13,8 +13,10 @@ What YOU build (look for the `# TODO` markers):
   - Period 3: save each order, then show each student their own orders
 
 Run:    python3 main.py
-Open:   http://127.0.0.1:5000        (on your own laptop)
-        or the forwarded port 5000   (in a GitHub Codespace)
+Open:   http://127.0.0.1:8000        (on your own laptop, in Google Chrome)
+        or the forwarded port 8000   (in a GitHub Codespace)
+
+Save a file and refresh the page to see your change: the app reloads itself.
 
 Sandbox: fake data only, debug mode off. In a Codespace each student has their
 own private copy, so nothing you do reaches anyone else.
@@ -35,6 +37,8 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(APP_DIR, "ais.db")
 
 app = Flask(__name__)
+# Show template changes as soon as you refresh the page.
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 
 # --------------------------------------------------------------------------
@@ -336,6 +340,9 @@ def service_worker():
 
 if __name__ == "__main__":
     init_db()
-    host = os.environ.get("HOST", "0.0.0.0")   # 0.0.0.0 so Codespaces can forward port 5000
-    port = int(os.environ.get("PORT", "5000"))
-    app.run(host=host, port=port, debug=False)
+    host = os.environ.get("HOST", "0.0.0.0")   # 0.0.0.0 so Codespaces can forward the port
+    # Port 8000, not Flask's usual 5000: on a Mac, AirPlay Receiver uses 5000.
+    port = int(os.environ.get("PORT", "8000"))
+    # Debug stays off (no in-browser debugger). The reloader restarts the
+    # server when you save a .py file, so you only need to refresh the page.
+    app.run(host=host, port=port, debug=False, use_reloader=True)

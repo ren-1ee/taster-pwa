@@ -3,7 +3,11 @@
 A small Flask Progressive Web App you build over four lessons, then test in
 the last one. Students pre-order their canteen lunch; the app saves each order.
 
-All commands here are for a Mac, so they use `python3`.
+All commands here are for a Mac, so they use `python3`. Use **Google Chrome**
+for this unit: later lessons use its DevTools.
+
+The app runs on port **8000**, not 5000, because AirPlay Receiver uses port
+5000 on a Mac.
 
 ## Run it
 
@@ -16,7 +20,8 @@ extension for you. In the terminal:
 python3 main.py
 ```
 
-Then click the forwarded port 5000.
+Your app opens in a new browser tab. If it does not, open the **Ports** tab
+and click the globe icon on port 8000.
 
 ### Option B: your own Mac with VS Code
 
@@ -45,7 +50,11 @@ Then run the app:
 python3 main.py
 ```
 
-Open http://127.0.0.1:5000
+Open http://127.0.0.1:8000 in **Google Chrome**.
+
+Save a file and refresh the page to see your change: the app reloads itself.
+If the terminal shows an error and the app stops, fix the error and run
+`python3 main.py` again.
 
 When you write the menu SQL (Period 1), build the database with
 `python3 setup_db.py` before running the app.
